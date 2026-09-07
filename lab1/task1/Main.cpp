@@ -7,8 +7,6 @@
 #include "Duck/MallardDuck.h"
 #include "Duck/RedheadDuck.h"
 
-
-
 int main()
 {
     std::vector<std::unique_ptr<Duck>> ducks;
