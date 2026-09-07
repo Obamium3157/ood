@@ -24,7 +24,7 @@ public:
 private:
   void OnFly()
   {
-    if (const auto flights = m_flyBehavior->GetNumbrOfFlights();
+    if (const auto flights = m_flyBehavior->GetFlightCount();
       flights && *flights % 2 == 0 && *flights != 0)
     {
       m_quackBehavior->Quack();

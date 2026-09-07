@@ -8,7 +8,7 @@ class FlyNoWay : public IFlyBehavior
 public:
   void Fly() override { }
 
-  std::optional<unsigned int> GetNumbrOfFlights() const override
+  std::optional<unsigned int> GetFlightCount() const override
   {
     return std::nullopt;
   }

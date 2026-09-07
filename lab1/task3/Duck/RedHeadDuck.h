@@ -1,15 +1,12 @@
-#ifndef OOD_MALLARDDUCK_H
-#define OOD_MALLARDDUCK_H
+#ifndef OOD_REDHEADDUCK_H
+#define OOD_REDHEADDUCK_H
 
 #include "Duck.h"
-#include "Behaviors/QuackBehaviors.h"
-#include "Behaviors/FlyBehaviors.h"
-#include "Behaviors/DanceBehaviors.h"
 
-class MallardDuck : public Duck
+class RedheadDuck : public Duck
 {
 public:
-  MallardDuck()
+  RedheadDuck()
     : Duck(std::make_unique<QuackBehavior>(SimpleQuack),
            std::make_unique<FlyBehavior>(
              FlyWithWings([this](const unsigned int flightCount)
@@ -19,14 +16,14 @@ public:
                (*m_quackBehavior)();
              }
            })),
-           std::make_unique<DanceBehavior>(DanceWaltz))
+           std::make_unique<DanceBehavior>(DanceMinuet))
   {
   }
 
   void Display() const override
   {
-    std::cout << "Me art Redhead duck.\n";
+    std::cout << "I... am Mallard duck\n";
   }
 };
 
-#endif //OOD_MALLARDDUCK_H
+#endif //OOD_REDHEADDUCK_H

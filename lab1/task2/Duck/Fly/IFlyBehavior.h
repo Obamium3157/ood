@@ -6,7 +6,7 @@ class IFlyBehavior
 public:
   virtual ~IFlyBehavior() = default;
   virtual void Fly() = 0;
-  virtual std::optional<unsigned int> GetNumbrOfFlights() const = 0;
+  virtual std::optional<unsigned int> GetFlightCount() const = 0;
 };
 
 #endif //OOD_IFLYBEHAVIOR_H

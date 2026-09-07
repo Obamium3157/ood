@@ -16,23 +16,23 @@ public:
 
   void Fly() override
   {
-    m_flightCounter++;
+    m_flightCount++;
 
 
     std::cout << "make you take me on your mighty wings ~\n";
     m_onFlight();
 
 
-    std::cout << "That was flight #" << m_flightCounter << "\n";
+    std::cout << "That was flight #" << m_flightCount << "\n";
   }
 
-  std::optional<unsigned int> GetNumbrOfFlights() const override
+  std::optional<unsigned int> GetFlightCount() const override
   {
-    return m_flightCounter;
+    return m_flightCount;
   }
 
 private:
-  unsigned int m_flightCounter = 0;
+  unsigned int m_flightCount = 0;
   std::function<void()> m_onFlight;
 };
 

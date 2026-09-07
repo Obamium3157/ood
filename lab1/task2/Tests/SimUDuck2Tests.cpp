@@ -22,7 +22,7 @@ namespace
       m_onFlight();
     }
 
-    std::optional<unsigned int> GetNumbrOfFlights() const override
+    std::optional<unsigned int> GetFlightCount() const override
     {
       return m_flightCounter;
     }
@@ -45,7 +45,7 @@ namespace
       m_onFlight();
     }
 
-    std::optional<unsigned int> GetNumbrOfFlights() const override
+    std::optional<unsigned int> GetFlightCount() const override
     {
       return std::nullopt;
     }
@@ -87,7 +87,7 @@ namespace
   private:
     void OnFly()
     {
-      if (const auto flights = m_flyBehavior->GetNumbrOfFlights();
+      if (const auto flights = m_flyBehavior->GetFlightCount();
         flights && *flights % 2 == 0 && *flights != 0)
       {
         m_quackBehavior->Quack();

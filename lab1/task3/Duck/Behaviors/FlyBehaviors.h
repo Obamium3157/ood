@@ -5,12 +5,27 @@
 #include <functional>
 
 using FlyBehavior = std::function<void()>;
+using OnFlightCallback = std::function<void(unsigned int)>;
 
-void FlyWithWings()
+inline FlyBehavior FlyWithWings(const OnFlightCallback& onFlight)
 {
-  std::cout << "make you take me on your mighty wings ~\n";
+  auto flightCount = std::make_shared<unsigned int>(0);
+
+  return [onFlight, flightCount]() mutable
+  {
+    (*flightCount)++;
+    std::cout << "make you take me on your mighty wings ~\n";
+    if (onFlight)
+    {
+      onFlight(*flightCount);
+    }
+    std::cout << "That was flight #" << *flightCount << "\n";
+  };
 }
 
-void FlyNoWay() { }
+inline FlyBehavior FlyNoWay()
+{
+  return [] { };
+}
 
 #endif //OOD_FLYBEHAVIORS_H
