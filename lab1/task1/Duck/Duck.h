@@ -44,6 +44,21 @@ public:
 
   virtual void Display() const = 0;
 
+  void SetQuackBehavior(std::unique_ptr<IQuackBehavior>&& quackBehavior)
+  {
+    m_quackBehavior = std::move(quackBehavior);
+  }
+
+  void SetFlyBehavior(std::unique_ptr<IFlyBehavior>&& flyBehavior)
+  {
+    m_flyBehavior = std::move(flyBehavior);
+  }
+
+  void SetDanceBehavior(std::unique_ptr<IDanceBehavior>&& danceBehavior)
+  {
+    m_danceBehavior = std::move(danceBehavior);
+  }
+
 private:
   std::unique_ptr<IQuackBehavior> m_quackBehavior;
   std::unique_ptr<IFlyBehavior> m_flyBehavior;

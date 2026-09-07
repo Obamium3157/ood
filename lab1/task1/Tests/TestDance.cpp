@@ -24,6 +24,23 @@ namespace
     mutable unsigned int m_danceCount = 0;
   };
 
+  class BinaryDanceBehavior : public IDanceBehavior
+  {
+  public:
+    void Dance() const override
+    {
+      m_hasDanced = true;
+    }
+
+    bool GetHasDanced() const
+    {
+      return m_hasDanced;
+    }
+
+  private:
+    mutable bool m_hasDanced = false;
+  };
+
   class DancingDuck : public Duck
   {
   public:
@@ -54,4 +71,23 @@ TEST_CASE("A dancing duck can dance")
     duck.PerformDance();
   }
   CHECK(danceBehaviorRef->GetDanceCount() == 6);
+}
+
+TEST_CASE("Strategy is changeable in runtime")
+{
+  auto mockDanceBehavior = std::make_unique<MockDanceBehavior>();
+  const auto* mockDanceBehaviorRef = mockDanceBehavior.get();
+
+  auto binaryDanceBehavior = std::make_unique<BinaryDanceBehavior>();
+  const auto* binaryDanceBehaviorRef = binaryDanceBehavior.get();
+
+  DancingDuck duck(std::move(mockDanceBehavior));
+  CHECK(mockDanceBehaviorRef->GetDanceCount() == 0);
+  duck.PerformDance();
+  CHECK(mockDanceBehaviorRef->GetDanceCount() == 1);
+
+  duck.SetDanceBehavior(std::move(binaryDanceBehavior));
+  CHECK(binaryDanceBehaviorRef->GetHasDanced() == false);
+  duck.PerformDance();
+  CHECK(binaryDanceBehaviorRef->GetHasDanced() == true);
 }

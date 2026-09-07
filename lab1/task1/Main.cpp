@@ -20,4 +20,11 @@ int main()
     {
         PlayWithDuck(*duck);
     }
+
+    std::cout << "--------\n";
+
+    RedheadDuck duck;
+    PlayWithDuck(duck);
+    duck.SetQuackBehavior(std::make_unique<SqueakBehavior>());
+    PlayWithDuck(duck);
 }
