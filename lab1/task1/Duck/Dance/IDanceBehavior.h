@@ -4,7 +4,7 @@
 class IDanceBehavior
 {
 public:
-  virtual ~IDanceBehavior() { }
+  virtual ~IDanceBehavior() = default;
   virtual void Dance() const = 0;
 };
 

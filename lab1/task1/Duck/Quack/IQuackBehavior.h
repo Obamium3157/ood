@@ -4,7 +4,7 @@
 class IQuackBehavior
 {
 public:
-  virtual ~IQuackBehavior() { }
+  virtual ~IQuackBehavior() = default;
   virtual void Quack() const = 0;
 };
 

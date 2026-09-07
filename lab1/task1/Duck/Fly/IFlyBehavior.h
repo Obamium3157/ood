@@ -4,7 +4,7 @@
 class IFlyBehavior
 {
 public:
-  virtual ~IFlyBehavior() {}
+  virtual ~IFlyBehavior() = default;
   virtual void Fly() const = 0;
 };
 
