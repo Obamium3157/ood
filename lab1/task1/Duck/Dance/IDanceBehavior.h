@@ -4,8 +4,8 @@
 class IDanceBehavior
 {
 public:
-  virtual ~IDanceBehavior() {}
-  virtual void Dance() = 0;
+  virtual ~IDanceBehavior() { }
+  virtual void Dance() const = 0;
 };
 
 #endif //OOD_IDANCEBEHAVIOR_H

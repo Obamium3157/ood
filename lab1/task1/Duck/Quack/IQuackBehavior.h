@@ -4,8 +4,8 @@
 class IQuackBehavior
 {
 public:
-  virtual ~IQuackBehavior() {}
-  virtual void Quack() = 0;
+  virtual ~IQuackBehavior() { }
+  virtual void Quack() const = 0;
 };
 
 #endif //OOD_IQUACKBEHAVIOR_H

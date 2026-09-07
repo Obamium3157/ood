@@ -6,7 +6,7 @@
 class DanceNoWay : public IDanceBehavior
 {
 public:
-  void Dance() override { }
+  void Dance() const override { }
 };
 
 #endif //OOD_DANCENOWAY_H

@@ -5,7 +5,7 @@ class IFlyBehavior
 {
 public:
   virtual ~IFlyBehavior() {}
-  virtual void Fly() = 0;
+  virtual void Fly() const = 0;
 };
 
 #endif //OOD_IFLYBEHAVIOR_H

@@ -8,7 +8,7 @@
 class FlyWithWings : public IFlyBehavior
 {
 public:
-  void Fly() override
+  void Fly() const override
   {
     std::cout << "make you take me on your mighty wings ~\n";
   }
