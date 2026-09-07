@@ -2,6 +2,7 @@
 #define OOD_ARTIFICIALDUCK_H
 
 #include "Duck.h"
+#include "Dance/DanceNoWay.h"
 #include "Fly/FlyNoWay.h"
 #include "Quack/SqueakBehavior.h"
 
@@ -10,13 +11,14 @@ class ArtificialDuck : public Duck
 public:
   ArtificialDuck()
     : Duck(std::make_unique<SqueakBehavior>(),
-           std::make_unique<FlyNoWay>())
+           std::make_unique<FlyNoWay>(),
+           std::make_unique<DanceNoWay>())
   {
   }
 
   void Display() const override
   {
-    std::cout << "Fire at an artificial duck factory\n";
+    std::cout << "Fire at the artificial duck factory\n";
   }
 };
 

@@ -15,6 +15,7 @@ inline void PlayWithDuck(const Duck& duck)
   DrawDuck(duck);
   duck.PerformQuack();
   duck.PerformFly();
+  duck.PerformDance();
   std::cout << "\n";
 }
 

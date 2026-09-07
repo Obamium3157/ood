@@ -10,7 +10,8 @@ class DecoyDuck : public Duck
 public:
   DecoyDuck()
     : Duck(std::make_unique<MuteQuackBehavior>(),
-           std::make_unique<FlyNoWay>())
+           std::make_unique<FlyNoWay>(),
+           std::make_unique<DanceNoWay>())
   {
   }
 

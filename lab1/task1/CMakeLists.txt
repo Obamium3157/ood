@@ -13,4 +13,8 @@ add_executable(SimUDuck Main.cpp
         Duck/Fly/FlyNoWay.h
         Duck/RedheadDuck.h
         Duck/ArtificialDuck.h
-        Duck/DecoyDuck.h)
+        Duck/DecoyDuck.h
+        Duck/Dance/IDanceBehavior.h
+        Duck/Dance/DanceWaltz.h
+        Duck/Dance/DanceMinuet.h
+        Duck/Dance/DanceNoWay.h)
