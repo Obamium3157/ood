@@ -18,3 +18,7 @@ add_executable(SimUDuck Main.cpp
         Duck/Dance/DanceWaltz.h
         Duck/Dance/DanceMinuet.h
         Duck/Dance/DanceNoWay.h)
+
+add_executable(SimUDuckTest Tests/TestDance.cpp)
+
+target_link_libraries(SimUDuckTest PRIVATE Catch2::Catch2WithMain)
