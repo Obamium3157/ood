@@ -1,5 +1,5 @@
-#ifndef OOD_DUCK_H
-#define OOD_DUCK_H
+#ifndef OOD_DUCK1_H
+#define OOD_DUCK1_H
 
 #include <iostream>
 #include <memory>
@@ -51,4 +51,4 @@ private:
 };
 
 
-#endif //OOD_DUCK_H
+#endif //OOD_DUCK1_H
