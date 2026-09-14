@@ -59,6 +59,23 @@ namespace
     mutable unsigned int m_flyCount = 0;
   };
 
+  class BinaryFlyBehavior : public IFlyBehavior
+  {
+  public:
+    void Fly() const override
+    {
+      m_hasFlown = true;
+    }
+
+    bool GetHasFlown() const
+    {
+      return m_hasFlown;
+    }
+
+  private:
+    mutable bool m_hasFlown = false;
+  };
+
   class MockQuackBehavior : public IQuackBehavior
   {
   public:
@@ -74,6 +91,23 @@ namespace
 
   private:
     mutable unsigned int m_quackCount = 0;
+  };
+
+  class BinaryQuackBehavior : public IQuackBehavior
+  {
+  public:
+    void Quack() const override
+    {
+      m_hasQuacked = true;
+    }
+
+    bool GetHasQuacked() const
+    {
+      return m_hasQuacked;
+    }
+
+  private:
+    mutable bool m_hasQuacked = false;
   };
 
   class DancingDuck : public Duck
@@ -161,7 +195,7 @@ TEST_CASE("A quacking duck can quack", "[StandardBehaviorCheck]")
 }
 
 
-TEST_CASE("Strategy is changeable in runtime", "[ChangeBehavior]")
+TEST_CASE("Dance strategy is changeable in runtime", "[ChangeBehavior]")
 {
   auto mockDanceBehavior = std::make_unique<MockDanceBehavior>();
   const auto* mockDanceBehaviorRef = mockDanceBehavior.get();
@@ -178,4 +212,44 @@ TEST_CASE("Strategy is changeable in runtime", "[ChangeBehavior]")
   CHECK(binaryDanceBehaviorRef->GetHasDanced() == false);
   duck.PerformDance();
   CHECK(binaryDanceBehaviorRef->GetHasDanced() == true);
+}
+
+TEST_CASE("Changing dance strategy to the same one resets it", "[ChangeBehavior]")
+{
+  auto mockDanceBehavior1 = std::make_unique<MockDanceBehavior>();
+  const auto* mockDanceBehavior1Ref = mockDanceBehavior1.get();
+
+  auto mockDanceBehavior2 = std::make_unique<MockDanceBehavior>();
+  const auto* mockDanceBehavior2Ref = mockDanceBehavior2.get();
+
+  DancingDuck duck(std::move(mockDanceBehavior1));
+  CHECK(mockDanceBehavior1Ref->GetDanceCount() == 0);
+  CHECK(mockDanceBehavior2Ref->GetDanceCount() == 0);
+  duck.PerformDance();
+  CHECK(mockDanceBehavior1Ref->GetDanceCount() == 1);
+  CHECK(mockDanceBehavior2Ref->GetDanceCount() == 0);
+
+  duck.SetDanceBehavior(std::move(mockDanceBehavior2));
+  CHECK(mockDanceBehavior2Ref->GetDanceCount() == 0);
+  duck.PerformDance();
+  CHECK(mockDanceBehavior2Ref->GetDanceCount() == 1);
+}
+
+TEST_CASE("Fly strategy is changeable in runtime", "[ChangeBehavior]")
+{
+  auto mockFlyBehavior = std::make_unique<MockFlyBehavior>();
+  const auto* mockFlyBehaviorRef = mockFlyBehavior.get();
+
+  auto binaryFlyBehavior = std::make_unique<BinaryDanceBehavior>();
+  const auto* binaryFlyBehaviorRef = binaryFlyBehavior.get();
+
+  FlyingDuck duck(std::move(mockFlyBehavior));
+  CHECK(mockFlyBehaviorRef->GetFlyCount() == 0);
+  duck.PerformFly();
+  CHECK(mockFlyBehaviorRef->GetFlyCount() == 1);
+
+  duck.SetDanceBehavior(std::move(binaryFlyBehavior));
+  CHECK(binaryFlyBehaviorRef->GetHasDanced() == false);
+  duck.PerformDance();
+  CHECK(binaryFlyBehaviorRef->GetHasDanced() == true);
 }
