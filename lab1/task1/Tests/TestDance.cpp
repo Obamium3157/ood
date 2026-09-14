@@ -1,7 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "../Duck/Duck.h"
-#include "..//Duck/Fly/FlyNoWay.h"
+#include "../Duck/Fly/FlyNoWay.h"
 #include "../Duck/Dance/DanceNoWay.h"
 #include "../Duck/Dance/IDanceBehavior.h"
 #include "../Duck/Quack/MuteQuackBehavior.h"
@@ -148,9 +148,25 @@ namespace
 
     void Display() const override { }
   };
-}
 
-// TODO: добавить тест (вызов одной стратегии не виляет на другие стратегии)
+  template <typename QuackBehavior,
+            typename FlyBehavior,
+            typename DanceBehavior>
+  class MultitaskingDuck : public Duck
+  {
+  public:
+    MultitaskingDuck(std::unique_ptr<QuackBehavior>&& quackBehavior,
+                     std::unique_ptr<FlyBehavior>&& flyBehavior,
+                     std::unique_ptr<DanceBehavior>&& danceBehavior)
+      : Duck(std::move(quackBehavior),
+             std::move(flyBehavior),
+             std::move(danceBehavior))
+    {
+    }
+
+    void Display() const override { }
+  };
+}
 
 TEST_CASE("A dancing duck can dance", "[StandardBehaviorCheck]")
 {
@@ -214,7 +230,7 @@ TEST_CASE("Dance strategy is changeable in runtime", "[ChangeBehavior]")
   CHECK(binaryDanceBehaviorRef->GetHasDanced() == true);
 }
 
-TEST_CASE("Changing dance strategy to the same one resets it", "[ChangeBehavior]")
+TEST_CASE("Changing strategy to the same one resets it", "[ChangeBehavior]")
 {
   auto mockDanceBehavior1 = std::make_unique<MockDanceBehavior>();
   const auto* mockDanceBehavior1Ref = mockDanceBehavior1.get();
@@ -252,4 +268,47 @@ TEST_CASE("Fly strategy is changeable in runtime", "[ChangeBehavior]")
   CHECK(binaryFlyBehaviorRef->GetHasDanced() == false);
   duck.PerformDance();
   CHECK(binaryFlyBehaviorRef->GetHasDanced() == true);
+}
+
+TEST_CASE("Quack strategy is changeable in runtime", "[ChangeBehavior]")
+{
+  auto mockQuackBehavior = std::make_unique<MockQuackBehavior>();
+  const auto* mockQuackBehaviorRef = mockQuackBehavior.get();
+
+  auto binaryQuackBehavior = std::make_unique<BinaryQuackBehavior>();
+  const auto* binaryQuackBehaviorRef = binaryQuackBehavior.get();
+
+  QuackingDuck duck(std::move(mockQuackBehavior));
+  CHECK(mockQuackBehaviorRef->GetQuackCount() == 0);
+  duck.PerformQuack();
+  CHECK(mockQuackBehaviorRef->GetQuackCount() == 1);
+
+  duck.SetQuackBehavior(std::move(binaryQuackBehavior));
+  CHECK(binaryQuackBehaviorRef->GetHasQuacked() == false);
+  duck.PerformQuack();
+  CHECK(binaryQuackBehaviorRef->GetHasQuacked() == true);
+}
+
+TEST_CASE("Calling one strategy does not affect the others", "[StrategyInteraction]")
+{
+  auto mockQuackBehavior = std::make_unique<MockQuackBehavior>();
+  const auto* mockQuackBehaviorRef = mockQuackBehavior.get();
+
+  auto mockFlyBehavior = std::make_unique<MockFlyBehavior>();
+  const auto* mockFlyBehaviorRef = mockFlyBehavior.get();
+
+  MultitaskingDuck duck(std::move(mockQuackBehavior),
+                        std::move(mockFlyBehavior),
+                        std::make_unique<DanceNoWay>());
+
+  CHECK(mockQuackBehaviorRef->GetQuackCount() == 0);
+  CHECK(mockFlyBehaviorRef->GetFlyCount() == 0);
+  duck.PerformQuack();
+  duck.PerformQuack();
+  CHECK(mockQuackBehaviorRef->GetQuackCount() == 2);
+  CHECK(mockFlyBehaviorRef->GetFlyCount() == 0);
+
+  duck.PerformFly();
+  CHECK(mockQuackBehaviorRef->GetQuackCount() == 2);
+  CHECK(mockFlyBehaviorRef->GetFlyCount() == 1);
 }
