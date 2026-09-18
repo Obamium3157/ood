@@ -39,6 +39,7 @@ namespace
     }
 
   private:
+    // TODO: убрать const
     mutable bool m_hasDanced = false;
   };
 

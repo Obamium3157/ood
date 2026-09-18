@@ -9,6 +9,7 @@
 class MallardDuck : public Duck
 {
 public:
+  // TODO: сделать так, чтобы в коллбеке уже была информация
   MallardDuck()
     : Duck(std::make_unique<QuackBehavior>(),
            std::make_unique<FlyWithWings>([this]{ OnFly(); }),
@@ -22,6 +23,7 @@ public:
   }
 
 private:
+  // TODO: вынести в одно место
   void OnFly()
   {
     if (const auto flights = m_flyBehavior->GetFlightCount();

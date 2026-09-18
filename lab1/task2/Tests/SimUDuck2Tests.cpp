@@ -1,8 +1,8 @@
 #include <functional>
 #include <catch2/catch_test_macros.hpp>
 
-#include "../../task1/Duck/Dance/DanceNoWay.h"
-#include "../../task1/Duck/Quack/IQuackBehavior.h"
+#include "../Duck/Dance/DanceNoWay.h"
+#include "../Duck/Quack/IQuackBehavior.h"
 #include "../Duck/Duck.h"
 #include "../Duck/Fly/IFlyBehavior.h"
 
@@ -71,13 +71,13 @@ namespace
     mutable unsigned int m_quackCallCount = 0;
   };
 
-  template <typename FLyBehavior>
+  template <typename FlyBehavior>
   class FlyingQuackingDuck : public Duck
   {
   public:
     FlyingQuackingDuck(std::unique_ptr<IQuackBehavior>&& quackBehavior)
       : Duck(std::move(quackBehavior),
-             std::make_unique<FLyBehavior>([this] { OnFly(); }),
+             std::make_unique<FlyBehavior>([this] { OnFly(); }),
              std::make_unique<DanceNoWay>())
     {
     }
@@ -134,3 +134,5 @@ TEST_CASE("A duck never quacks if its fly behavior cannot count flights")
 
   CHECK(quackBehaviorPtr->GetQuackCallCount() == 0);
 }
+
+// TODO: полет -> полет -> кряк -> полет -> смена поведения

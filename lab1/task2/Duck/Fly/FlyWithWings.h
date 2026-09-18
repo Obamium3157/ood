@@ -14,6 +14,7 @@ public:
   {
   }
 
+  // TODO: странно, что FlyBehavior оповещает пользователя
   void Fly() override
   {
     m_flightCount++;
